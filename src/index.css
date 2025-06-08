@@ -9,6 +9,11 @@
   --button-background: #155dfc;
   --button-foreground: #fafafa;
 
+  /* input */
+  --input-primary: #155dfc;
+  --input-foreground: #2b2b2b;
+  --input-background: #fafafa;
+
   
 }
 
@@ -19,4 +24,19 @@
   /* button */
   --color-b-background: var(--button-background);
   --color-b-foreground: var(--button-foreground);
+  /* input */
+  --color-i-primary: var(--input-primary);
+  --color-i-foreground: var(--input-foreground);
+  --color-i-background: var(--input-background);
+
+  --animate-spin-slow: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
