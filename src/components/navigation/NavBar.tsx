@@ -5,7 +5,6 @@ export const NavBar = () => {
   const location = useLocation()
 
   const isActive = (path: string) => {
-    console.log("comparando: ", location.pathname, path, location.pathname === path)
     return location.pathname + location.search === path
   }
 
