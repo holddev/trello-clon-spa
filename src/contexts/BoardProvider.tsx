@@ -15,6 +15,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-06-06"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: [
               {
@@ -23,10 +24,25 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
                 tags: [{ name: "UI", color: "blue" }],
                 createdAt: "2025-06-01",
                 description: "Crear el encabezado principal de la landing."
+              },
+              {
+                id: 2,
+                title: "Crear sección de servicios",
+                tags: [{ name: "UI", color: "blue" }],
+                createdAt: "2025-06-02",
+                description: "Mostrar los servicios con imágenes y descripciones."
+              },
+              {
+                id: 3,
+                title: "Agregar formulario de contacto",
+                tags: [{ name: "Frontend", color: "green" }],
+                createdAt: "2025-06-03",
+                description: "Formulario interactivo para mensajes."
               }
             ]
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: [
               {
@@ -39,6 +55,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             ]
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: []
           }
@@ -52,6 +69,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-06-01"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: [
               {
@@ -71,10 +89,12 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             ]
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: []
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: []
           }
@@ -88,10 +108,12 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-05-01"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: []
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: [
               {
@@ -104,6 +126,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             ]
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: [
               {
@@ -125,6 +148,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-04-01"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: [
               {
@@ -137,10 +161,12 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             ]
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: []
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: [
               {
@@ -162,14 +188,17 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-06-01"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: []
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: []
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: [
               {
@@ -191,6 +220,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-06-07"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: [
               {
@@ -203,10 +233,12 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             ]
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: []
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: []
           }
@@ -220,10 +252,12 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-06-01"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: []
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: [
               {
@@ -236,6 +270,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             ]
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: []
           }
@@ -249,14 +284,17 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-05-20"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: []
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: []
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: [
               {
@@ -278,6 +316,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-06-06"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: [
               {
@@ -290,10 +329,12 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
             ]
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: []
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: []
           }
@@ -307,14 +348,17 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
         updatedAt: new Date("2025-04-10"),
         columns: [
           {
+            id: 1,
             title: "Por hacer",
             tasks: []
           },
           {
+            id: 2,
             title: "En progreso",
             tasks: []
           },
           {
+            id: 3,
             title: "Hecho",
             tasks: [
               {
