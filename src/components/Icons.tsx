@@ -1,4 +1,4 @@
-type Icon = 'GitHub' | 'personWorking' | "star" | "starFilled"
+type Icon = 'GitHub' | 'personWorking' | "star" | "starFilled" | "reorder"
 interface Props {
   icon: Icon,
   className?: string
@@ -24,6 +24,17 @@ export const Icons = ({ icon, className }: Props) => {
           <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
+          </svg>
+        )
+      case 'reorder':
+        return (
+          <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
+            <path d="M10 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
+            <path d="M17 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
+            <path d="M5 11v-3a3 3 0 0 1 3 -3h8a3 3 0 0 1 3 3v3" />
+            <path d="M16.5 8.5l2.5 2.5l2.5 -2.5" />
           </svg>
         )
       case 'personWorking':
