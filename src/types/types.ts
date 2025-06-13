@@ -7,7 +7,7 @@ export interface Task {
   id: number,
   title: string,
   tags: Tag[],
-  createdAt: string,
+  createdAt: Date,
   description: string
 }
 
@@ -25,6 +25,19 @@ export interface TaskBoard {
   createdAt: Date
   updatedAt: Date
   isOptimistic?: boolean
+}
+
+
+export type ReorderType = {
+  type: "reorder"
+  columnId: number
+  updatedTasks: Task[]
+} | {
+  type: "move"
+  fromColumnId: number
+  toColumnId: number
+  fromTasks: Task[]
+  toTasks: Task[]
 }
 
 
