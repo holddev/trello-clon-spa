@@ -4,11 +4,12 @@ export interface Tag {
 }
 
 export interface Task {
-  id: number,
+  id?: number,
   title: string,
   tags: Tag[],
   createdAt: Date,
-  description: string
+  description: string,
+  isOptimistic?: boolean
 }
 
 export interface TaskColumn {
