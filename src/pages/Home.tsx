@@ -3,6 +3,8 @@ import { Button } from "../components/UI/Button"
 import { Icons } from "../components/Icons"
 import { Header } from "../components/Header"
 import { Footer } from "../components/Footer"
+import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react"
+import { Link } from "react-router-dom"
 
 export const Home = () => {
   return (
@@ -14,12 +16,28 @@ export const Home = () => {
           <p className="text-pretty text-sm sm:text-base md:text-xl">
             La herramienta de colaboración visual que libera el potencial de tu equipo para crear proyectos extraordinarios.
           </p>
-          <Button
-            className="w-fit flex items-center gap-1 font-semibold"
-          >
-            Comenzar <ArrowRightIcon className="size-4" />
-          </Button>
+          <SignedIn>
+            <Button
+              className="w-fit"
+            >
+              <Link to="/dashboard" className="flex items-center gap-1 font-semibold">
+                Ver mis tableros <ArrowRightIcon className="size-4" />
+              </Link>
+            </Button>
+          </SignedIn>
+          <SignedOut>
+            <SignInButton
+              mode="modal"
+            >
+              <Button
+                className="w-fit flex items-center gap-1 font-semibold"
+              >
+                Comenzar Ahora <ArrowRightIcon className="size-4 md:size-5" />
+              </Button>
+            </SignInButton>
+          </SignedOut>
         </div>
+
         <div>
           <Icons icon="personWorking" className="h-auto min-w-[200px] w-[40vw] max-w-[300px]" />
         </div>
