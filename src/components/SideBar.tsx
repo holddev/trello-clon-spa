@@ -1,0 +1,173 @@
+import { ClockFadingIcon, Grid3X3Icon, LayoutListIcon, Loader2Icon, PanelLeftIcon, PlusIcon } from "lucide-react"
+import { startTransition, useOptimistic, useState } from "react"
+import { cn } from "../utils/utils"
+import { Icons } from "./Icons"
+import { useBoard } from "../hooks/useBoard"
+import { Input } from "./UI/Input"
+import type { TaskBoard } from "../types/types"
+import { Link, useLocation } from "react-router-dom"
+import { SignedIn, UserButton } from "@clerk/clerk-react"
+
+
+export const SideBar = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const { boards, addBoard } = useBoard()
+  const [boardOptimistic, addBoardOptimistic] = useOptimistic(
+    boards,
+    (state, newBoard: TaskBoard) => {
+      if (state.some(board => board.id === newBoard.id)) {
+        return state;
+      }
+      return [...state, newBoard];
+    }
+  )
+  const location = useLocation()
+
+  const menuItems = [
+    {
+      name: "Tableros",
+      path: "/dashboard",
+      icon: <LayoutListIcon className="size-4" />,
+    },
+    {
+      name: "Recientes",
+      path: "/dashboard?view=recent",
+      icon: <ClockFadingIcon className="size-4" />,
+    },
+    {
+      name: "Favoritos",
+      path: "/dashboard?view=starred",
+      icon: <Icons icon="star" className="size-4" />,
+    },
+  ];
+
+  const handleOnToggle = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const handleCreateBoard = (title: string) => {
+    if (!title.trim()) return
+    const newBoard: TaskBoard = {
+      id: new Date().getTime(),
+      title,
+      isStarred: false,
+      columns: [
+        {
+          id: new Date().getTime(),
+          title: "Backlog",
+          tasks: [],
+        }
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isOptimistic: true
+    }
+    startTransition(async () => {
+      addBoardOptimistic(newBoard)
+      await new Promise((resolve) => setTimeout(resolve, 5000))
+      addBoard({
+        ...newBoard,
+        isOptimistic: false
+      })
+    })
+  }
+
+  return (
+    <aside className="min-h-screen relative">
+      <button
+        className="bg-white/90 text-primary rounded-full p-2 w-fit absolute top-1 right-0 translate-x-[110%] cursor-pointer z-50"
+        onClick={handleOnToggle}
+      >
+        <PanelLeftIcon className="size-4 " />
+      </button>
+      <div className={cn(isOpen ? "w-64" : "w-0",
+        "h-full transition-all ease-in-out duration-500 overflow-hidden max-h-screen bg-gray-100",)}
+      >
+        <div className={cn("h-full w-full flex flex-col justify-between mt-4 px-2 transition origin-left", !isOpen && "scale-x-0")}>
+          {/* sidebar header */}
+          <div className="space-y-4">
+            <div className="flex gap-2">
+              <span className="bg-gradient-to-br  rounded-md text-shadow-2xs text-shadow-white/50 from-primary to-violet-600 p-2 font-bold text-xl text-white/90">TC</span>
+              <div className="flex flex-col items-start w-full rounded-md">
+                <h5 className="font-semibold text-primary">Mis Proyectos</h5>
+                <p className="text-sm text-foreground/80">Espacio de trabajo</p>
+              </div>
+            </div>
+            <hr className="w-full h-[1px] border-none bg-gradient-to-r from-violet-600/50 via-violet-600/30 to-transparent" />
+          </div>
+          {/* Items menu */}
+          <div className="space-y-4">
+            <div className="flex flex-col gap-1">
+              <h5 className="text-sm font-semibold text-primary">Personal</h5>
+              <ul className="text-foreground/80">
+                {
+                  menuItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.path}
+                      className={cn(
+                        "flex items-center gap-2 rounded-full hover:bg-primary/10 hover:text-primary transition px-2 py-1",
+                        location.pathname + location.search === item.path && "bg-primary text-white/90 hover:bg-primary hover:text-white/90"
+                      )}
+                    >
+                      {item.icon} {item.name}
+                    </Link>
+                  ))
+                }
+              </ul>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h5 className="text-sm font-semibold text-primary">Mis Tableros</h5>
+              <ul className="text-foreground/80 relative max-h-[230px] overflow-y-auto pb-2" >
+                {boardOptimistic.map((board) => (
+                  <li key={board.id}>
+                    {
+                      board.isOptimistic ? (
+                        <div
+                          className="flex items-center gap-2 rounded-sm hover:bg-background transition px-2 py-1"
+                        >
+                          <Loader2Icon className="min-w-4 size-4 animate-spin" />
+                          <span className="line-clamp-1">{board.title}</span>
+                        </div>
+                      ) : (
+                        <Link
+                          to={`/dashboard/${board.id}`}
+                          className={cn(
+                            "flex items-center gap-2 rounded-full hover:bg-primary/10 hover:text-primary transition px-2 py-1"
+                            , location.pathname + location.search === `/dashboard/${board.id}` && "bg-primary text-white/90 hover:bg-primary hover:text-white/90"
+                          )}
+                        >
+                          <Grid3X3Icon className="min-w-4 size-4" />
+                          <span className="line-clamp-1">{board.title}</span>
+                        </Link>
+                      )
+                    }
+                  </li>
+                ))}
+                <li className="flex items-center gap-2 py-1 px-2">
+                  <PlusIcon className="size-4" />
+                  <Input
+                    placeholder="Agregar Tablero"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleCreateBoard(e.currentTarget.value)
+                        e.currentTarget.value = ""
+                      }
+                    }}
+                  />
+                </li>
+              </ul>
+            </div>
+            <hr className="w-full h-[1px] border-none bg-gradient-to-r from-violet-600/50 via-violet-600/30 to-transparent" />
+          </div>
+          {/* User profile */}
+          <div className="mb-7 w-full flex justify-end">
+            <SignedIn >
+              <UserButton showName />
+            </SignedIn>
+          </div>
+        </div>
+      </div>
+    </aside>
+  )
+}
