@@ -7,11 +7,13 @@ import { useSearchParams } from "react-router-dom";
 import { Badge } from "../components/UI/Badge";
 import { Icons } from "../components/Icons";
 import { NavBar } from "../components/navigation/NavBar";
+import { useUser } from "@clerk/clerk-react";
 
 export const Board = () => {
   const { boards } = useBoard()
   const [creating, setCreating] = useState(false)
   const [params] = useSearchParams()
+  const { user } = useUser()
   const view = params.get("view") ?? "all"
 
   const displayBoards = useMemo(() => {
@@ -30,6 +32,16 @@ export const Board = () => {
     <>
       <NavBar />
       <section className="relative h-auto flex flex-col gap-4 mb-12 mt-5 py-5 px-2">
+        <div className="flex gap-2 mb-2">
+          <div className="size-20 animate-pulse bg-primary/10 border-2 border-primary border-t-transparent border-b-transparent rounded-full p-2 grid text-4xl place-content-center">👋</div>
+          <div className="flex flex-col">
+            <h1 className="text-5xl font-semibold bg-gradient-to-r from-primary via-violet-500 to-violet-500 text-transparent bg-clip-text">Bienvenido</h1>
+            <p className="text-xl text-foreground pl-[2px]">
+              {user?.fullName}
+            </p>
+          </div>
+        </div>
+
         <button
           onClick={() => setCreating(true)}
           className="relative flex w-full sm:w-[300px] rounded-md shadow-sm px-2 py-4 
