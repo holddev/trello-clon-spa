@@ -4,21 +4,33 @@ import { cn } from "../utils/utils"
 import { Icons } from "./Icons"
 import { useBoard } from "../hooks/useBoard"
 import { Input } from "./UI/Input"
-import type { TaskBoard } from "../types/types"
+import type { Board, newBoard } from "../types/types"
 import { Link, useLocation } from "react-router-dom"
-import { SignedIn, UserButton } from "@clerk/clerk-react"
+import { SignedIn, useAuth, UserButton, useUser } from "@clerk/clerk-react"
+import { createBoard } from "../api/boards"
+import { toast } from "../utils/toast"
 
 
 export const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { boards, addBoard } = useBoard()
+  const { user } = useUser()
+  const { getToken } = useAuth()
   const [boardOptimistic, addBoardOptimistic] = useOptimistic(
     boards,
-    (state, newBoard: TaskBoard) => {
-      if (state.some(board => board.id === newBoard.id)) {
+    (state, newBoard: newBoard) => {
+      const tempBoard: Board = {
+        ...newBoard,
+        id: Math.random(),
+        cols: 0,
+        is_favorite: false,
+        created_at: (new Date()).toString()
+      };
+
+      if (state.some(board => board.title === tempBoard.title)) {
         return state;
       }
-      return [...state, newBoard];
+      return [...state, tempBoard];
     }
   )
   const location = useLocation()
@@ -47,28 +59,28 @@ export const SideBar = () => {
 
   const handleCreateBoard = (title: string) => {
     if (!title.trim()) return
-    const newBoard: TaskBoard = {
-      id: new Date().getTime(),
+    if (!user?.id) return
+
+    const newBoard: newBoard = {
       title,
-      isStarred: false,
-      columns: [
-        {
-          id: new Date().getTime(),
-          title: "Backlog",
-          tasks: [],
-        }
-      ],
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      user_id: user.id,
+      order: boardOptimistic.length,
       isOptimistic: true
     }
     startTransition(async () => {
       addBoardOptimistic(newBoard)
-      await new Promise((resolve) => setTimeout(resolve, 5000))
-      addBoard({
-        ...newBoard,
-        isOptimistic: false
-      })
+      const token = await getToken()
+      const createdBoard = await createBoard({ token, body: newBoard })
+
+      if (createdBoard) {
+        addBoard({
+          ...createdBoard,
+          isOptimistic: false
+        })
+        toast.ok("Tablero creado...")
+      } else {
+        toast.error("No se pudo crear el tablero...")
+      }
     })
   }
 
