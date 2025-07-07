@@ -7,10 +7,10 @@ import { Input } from "../UI/Input"
 import { cn } from "../../utils/utils"
 import { format } from 'date-fns'
 import { es } from "date-fns/locale"
-import type { TaskBoard } from "../../types/types"
+import type { Board } from "../../types/types"
 
 interface Props {
-  board: TaskBoard
+  board: Board
   onToggleStar: (id: number) => void
   onUpdateBoard: (id: number, title: string) => void
   onRemoveBoard: (id: number) => void
@@ -54,15 +54,16 @@ export const CardBoard = ({ board, onToggleStar, onUpdateBoard, onRemoveBoard }:
             </h3>
           )}
           <span className="flex items-center gap-1 text-sm">
-            <ClockFadingIcon className="size-4" />{format(board.createdAt, "dd MMM", { locale: es })}
+            <ClockFadingIcon className="size-4" />
+            {format(board?.created_at || new Date(), "dd MMM", { locale: es })}
           </span>
         </div>
         <span className="w-fit text-6xl font-bold text-primary/20 group-hover:text-primary/40 transition" >
-          {board.columns.length}
+          {board.cols ?? 0}
         </span>
       </div>
       <button onClick={() => onToggleStar(board.id)} className="absolute right-1 top-1 cursor-pointer">
-        <Icons icon={board.isStarred ? "starFilled" : "star"} className="size-5 text-yellow-500" />
+        <Icons icon={board.is_favorite ? "starFilled" : "star"} className="size-5 text-yellow-500" />
       </button>
       <div className="flex items-center justify-between text-white/90">
 
