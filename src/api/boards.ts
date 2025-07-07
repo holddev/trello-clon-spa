@@ -1,4 +1,4 @@
-import type { Board, newBoard, Response } from "../types/types"
+import type { Board, newBoard, ReorderBoard, Response } from "../types/types"
 import { api } from "../utils/api"
 
 interface reqAuth<T = null> {
@@ -54,6 +54,19 @@ export const deleteBoard = async (req: reqAuth) => {
   } catch (err) {
     console.error('Error al editar el tablero: ', err)
     return {}
+  }
+}
+
+export const updateBoardOrder = async (req: reqAuth<ReorderBoard[]>) => {
+  try {
+    const res = await api.patch<Response<null>>(`/priv/boards/reorder`, {
+      headers: { Authorization: `Bearer ${req.token}` },
+      body: req.body
+    })
+    return res.ok
+  } catch (err) {
+    console.error('Error al editar el tablero: ', err)
+    return false
   }
 }
 
