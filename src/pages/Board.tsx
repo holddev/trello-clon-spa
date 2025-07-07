@@ -1,11 +1,9 @@
 
-import { ClockFadingIcon, PlusIcon } from "lucide-react"
+import { PlusIcon } from "lucide-react"
 import { useMemo, useState } from "react";
 import { useBoard } from "../hooks/useBoard";
 import { BoardList } from "../components/board/BoardList";
 import { useSearchParams } from "react-router-dom";
-import { Badge } from "../components/UI/Badge";
-import { Icons } from "../components/Icons";
 import { NavBar } from "../components/navigation/NavBar";
 import { useUser } from "@clerk/clerk-react";
 
@@ -18,10 +16,10 @@ export const Board = () => {
 
   const displayBoards = useMemo(() => {
     if (view === "recent") {
-      return [...boards].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      return [...boards].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     }
     if (view === "starred") {
-      return boards.filter((board) => board.isStarred)
+      return boards.filter((board) => board.is_favorite)
     }
 
     return boards
@@ -74,11 +72,8 @@ export const Board = () => {
 
         </button>
 
-        <h4 className="flex items-center gap-2">Lista de tableros
-          {view === "recent" && (<Badge className="flex items-center gap-1 text-white/90 bg-sky-600/90"><ClockFadingIcon className="size-4" />Recientes</Badge>)}
-          {view === "starred" && (<Badge className="flex items-center gap-1 text-white/90 bg-yellow-600/90"><Icons icon="starFilled" className="size-4" />Favoritos</Badge>)}
-        </h4>
         <BoardList
+          view={view}
           boards={displayBoards}
           creating={creating}
           setCreating={setCreating}
