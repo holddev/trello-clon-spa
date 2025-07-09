@@ -33,7 +33,7 @@ function App() {
             </ProtectedRoute>
           }>
             <Route index element={<Board />} />
-            <Route path=":id" element={<BoardDetail />} />
+            <Route path=":id/:slug" element={<BoardDetail />} />
           </Route>
         </Routes>
       </Router>
