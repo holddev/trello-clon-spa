@@ -1,4 +1,4 @@
-import type { Board, newBoard, ReorderBoard, Response } from "../types/types"
+import type { Board, BoardDetails, newBoard, ReorderBoard, Response } from "../types/types"
 import { api } from "../utils/api"
 
 interface reqAuth<T = null> {
@@ -16,6 +16,18 @@ export const getBoards = async (req: reqAuth) => {
   } catch (err) {
     console.error('Error al obtener los tableros:', err)
     return []
+  }
+}
+
+export const getBoardById = async (req: reqAuth) => {
+  try {
+    const res = await api.get<Response<BoardDetails>>(`/priv/boards/${req.id}`, {
+      headers: { Authorization: `Bearer ${req.token}` }
+    })
+    return res.data
+  } catch (err) {
+    console.error('Error al obtener el tablero por id:', err)
+    return null
   }
 }
 
