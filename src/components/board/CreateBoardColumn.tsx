@@ -1,22 +1,24 @@
 import { useState } from "react"
 import { Input } from "../UI/Input"
-import type { TaskColumn } from "../../types/types"
+import type { newColumn } from "../../types/types"
 import { SaveIcon } from "lucide-react"
 
 interface Props {
-  onAddColumn: (column: TaskColumn) => void
+  onAddColumn: (column: newColumn) => void
+  boardId: number
+  position: number
 }
 
-export const CreateBoardColumn = ({ onAddColumn }: Props) => {
+export const CreateBoardColumn = ({ onAddColumn, boardId, position }: Props) => {
   const [title, setTitle] = useState("")
 
   const handleAddColumn = () => {
     if (!title.trim()) return
 
-    const newColumn: TaskColumn = {
-      id: Math.random(),
+    const newColumn: newColumn = {
       title,
-      tasks: []
+      board_id: boardId,
+      position: position,
     }
     onAddColumn(newColumn)
     setTitle("")
