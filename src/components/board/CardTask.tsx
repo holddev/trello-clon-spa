@@ -19,14 +19,14 @@ export const CardTask = ({ className, task, onEdit, onDelete }: Props) => {
         <div className="absolute inset-0 w-full h-full backdrop-blur-[1.3px] grid place-content-center">
           <span className="flex items-center gap-2 text-sm text-primary">
             <LoaderPinwheelIcon className="size-5 animate-spin" />
-            Eliminando...
+            Guardando...
           </span>
         </div>
       )}
       <div className="flex items-center gap-1 flex-wrap font-semibold">
         {task.tags.map((tag) => (
-          <Badge className={cn("text-white/90 text-xs")} style={{ backgroundColor: tag.color }} >
-            {tag.name}
+          <Badge key={tag.id} className={cn("text-white/90 text-xs")} style={{ backgroundColor: tag.color }} >
+            {tag.text}
           </Badge>
         ))}
       </div>
@@ -34,7 +34,7 @@ export const CardTask = ({ className, task, onEdit, onDelete }: Props) => {
       <p className="text-pretty text-xs">{task.description}</p>
       <div className="flex items-center gap-2 justify-between">
         <span className="flex items-center gap-1 text-xs">
-          <CalendarIcon className="size-3" />{format(task.createdAt, "dd MMM yyyy", { locale: es })}
+          <CalendarIcon className="size-3" />{format(new Date(task.created_at ?? new Date()), "dd MMM yyyy", { locale: es })}
         </span>
         <div className="flex items-center gap-1 text-white/90">
           <button
