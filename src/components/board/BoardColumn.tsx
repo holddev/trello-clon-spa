@@ -1,6 +1,6 @@
-import { EllipsisIcon, PlusIcon } from "lucide-react"
+import { EllipsisIcon, ListTodoIcon, PlusIcon } from "lucide-react"
 import { CardTask } from "./CardTask"
-import type { ReorderType, Task, TaskColumn } from "../../types/types"
+import type { Column, newTask, ReorderType, Task } from "../../types/types"
 import { cn } from "../../utils/utils"
 import { Badge } from "../UI/Badge"
 import { Dropdown } from "../UI/Dropdown"
@@ -8,18 +8,21 @@ import { useDragAndDrop } from "@formkit/drag-and-drop/react"
 import { startTransition, useOptimistic, useState } from "react"
 import { CreateCardTask } from "./CreateCardTask"
 import { Input } from "../UI/Input"
+import { useAuth } from "@clerk/clerk-react"
+import { createTask, deleteTask, editTask } from "../../api/tasks"
+import { toast } from "../../utils/toast"
 
 
 interface Props {
   className?: string
-  columnTasks: TaskColumn
+  columnTasks: Column
   onTasksChange: (change: ReorderType) => void
   onDelete: (id: number) => void
   onUpdate: (id: number, title: string) => void
 }
 
 type OptimisticAction =
-  | { type: 'create'; payload: Task }
+  | { type: 'create'; payload: newTask }
   | { type: 'update'; payload: Task }
   | { type: 'delete'; payload: { id: number } };
 
@@ -29,8 +32,9 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
 
   const [title, setTitle] = useState(columnTasks.title)
   const [editingTitle, setEditingTitle] = useState(false)
+  const { getToken } = useAuth()
 
-  const [refParent, tasksData, setTaskData] = useDragAndDrop<HTMLDivElement, Task>(columnTasks.tasks, {
+  const [refParent, tasksData, setTaskData] = useDragAndDrop<HTMLDivElement, Task>(columnTasks.tasks ?? [], {
     group: "board",
     multiDrag: true,
     onDragend: (data) => {
@@ -76,7 +80,16 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
       const { type, payload } = action
 
       if (type === "create") {
-        return [...prev, { ...payload, isOptimistic: true }];
+        const tempTask: Task = {
+          ...payload,
+          created_at: (new Date()).toString(),
+          id: Math.random(),
+          isOptimistic: true,
+        }
+        if (prev.some(task => task.title === tempTask.title)) {
+          return prev;
+        }
+        return [...prev, tempTask];
       }
       if (type === "update") {
         return prev.map((task) => {
@@ -105,19 +118,35 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
     }
   )
 
+  // Methods for tasks
+  const handleEditTask = (id: number, task: Partial<Task>) => {
+    const originalTask = tasksData.find(t => t.id === id)
+    if (!originalTask) {
+      toast.error("No se encontró la tarea original.")
+      return
+    }
 
-  const handleEditTask = (id: number, task: Task) => {
     startTransition(async () => {
-      addOptimisticData({ type: "update", payload: task })
-      const newTask = {
+      const optimisticTask: Task = {
+        ...originalTask,
         ...task,
-        isOptimistic: false,
+        isOptimistic: true,
       }
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      addOptimisticData({ type: "update", payload: optimisticTask })
+
+      const token = await getToken()
+      const editedTask = await editTask({ token, id, body: task })
+
+      if (!editedTask) {
+        toast.error("Algo salío mal...")
+        setIsEditing(undefined)
+        return
+      }
+
       setTaskData((prev) => {
         return prev.map(task => {
-          if (task.id === newTask.id) {
-            return newTask
+          if (task.id === optimisticTask.id) {
+            return ({ ...optimisticTask, isOptimistic: false })
           }
           return task
         })
@@ -126,19 +155,23 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
     })
   }
 
-  const handleOnSaveTask = (newTask: Task) => {
+  const handleOnSaveTask = (newTask: newTask) => {
     setCreating(false)
+
     startTransition(async () => {
       addOptimisticData({ type: "create", payload: newTask })
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const token = await getToken()
+      const createdTask = await createTask({ token, body: newTask })
+
+      if (!createdTask) {
+        toast.error("Algo salío mal...")
+        return
+      }
+
       setTaskData((prev) => {
-        console.log("hay esto en prev: ", prev)
-        return [...prev, {
-          ...newTask,
-          id: prev.length + 1,
-          isOptimistic: false,
-        }]
+        return [...prev, createdTask]
       })
+      toast.ok("Tarea creada...")
 
     })
   }
@@ -147,13 +180,22 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
 
     startTransition(async () => {
       addOptimisticData({ type: "delete", payload: { id } })
-      await new Promise(resolve => setTimeout(resolve, 3000))
+      const token = await getToken()
+      const deletedTask = await deleteTask({ token, id })
+
+      if (!deletedTask) {
+        toast.error("Algo salío mal...")
+        return
+      }
+
       setTaskData((prev) => {
         return prev.filter(task => task.id !== id)
       })
+      toast.ok("Tarea eliminada...")
     })
   }
 
+  // Methods for cols
   const handleremoveColumn = () => {
     onDelete(columnTasks.id)
   }
@@ -174,26 +216,31 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
 
   return (
     <article className={cn("flex flex-col gap-2 p-3 bg-gray-200/50 min-w-[250px] rounded-md", className)}>
-      <div className="flex items-center justify-between pb-2 text-foreground">
+      <div className="flex items-center justify-between pb-2 text-foreground group">
         {editingTitle ? (
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="text-sm mr-2"
+            autoFocus
             onKeyDown={(e) => {
               if (e.key === "Enter") {
+                if (title === columnTasks.title || title === "") {
+                  setEditingTitle(false)
+                  return
+                }
                 setEditingTitle(false)
                 onUpdate(columnTasks.id, title)
               }
             }}
           />
         ) : (
-          <h3 className="text-sm font-bold">{columnTasks.title}</h3>
+          <h3 className="text-sm font-bold group-hover:text-primary transition">{columnTasks.title}</h3>
         )
         }
         <div className="flex items-center gap-2">
-          <Badge className={cn("bg-gray-300 text-xs")} >
-            {columnTasks.tasks.length}
+          <Badge className={cn("text-foreground bg-white text-xs font-semibold rounded-full shadow-sm")} >
+            {columnTasks.tasks?.length ?? 0}
           </Badge>
           <Dropdown
             trigger={
@@ -202,10 +249,10 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
           >
             <ul className=" text-sm bg-background">
               {optionColumns.map(option => (
-                <li className="w-full">
+                <li key={option.name} className="w-full">
                   <button
                     onClick={() => option.action()}
-                    className="w-full text-start px-3 py-1 rounded-md hover:bg-primary hover:text-white/90 transition"
+                    className="w-full text-start px-3 py-1 rounded-md hover:bg-primary hover:text-white/90 transition cursor-pointer"
                   >
                     {option.name}
                   </button>
@@ -221,10 +268,10 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
         className="flex flex-col gap-2 bg-gradient-to-br from-primary/50 to-violet-500/50 rounded-md p-2"
       >
         {
-          optimisticData.map((task) => {
+          optimisticData.map((task, index) => {
             return (
               <div
-                key={task.id}
+                key={`${task.id}-${index}`}
                 className="relative w-full h-full"
               >
                 {
@@ -254,6 +301,8 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
           creating ? (
             <CreateCardTask
               id="no-drag"
+              columnId={columnTasks.id}
+              positionTask={columnTasks?.tasks?.length ?? 0}
               onCancel={() => setCreating(false)}
               onSave={handleOnSaveTask}
             />
@@ -262,12 +311,13 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
               id="no-drag"
               onClick={() => setCreating(true)}
               className={cn(
-                "bg-white text-foreground mt-2",
+                "text-white/60 rounded-md border-2 border-white/60 border-dashed mt-2",
+                "hover:text-white hover:border-white transition",
                 "w-full flex items-center gap-1 ",
                 "rounded-md p-2 shadow-sm hover:shadow-md cursor-pointer"
               )}
             >
-              <PlusIcon className="size-4" />Nuevo
+              <PlusIcon className="size-4" />Añadir Tarjeta
             </button>
           )
         }
