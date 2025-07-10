@@ -1,4 +1,4 @@
-import { EllipsisIcon, ListTodoIcon, PlusIcon } from "lucide-react"
+import { EllipsisIcon, PlusIcon } from "lucide-react"
 import { CardTask } from "./CardTask"
 import type { Column, newTask, ReorderType, Task } from "../../types/types"
 import { cn } from "../../utils/utils"

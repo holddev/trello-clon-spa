@@ -30,6 +30,7 @@ export const CreateBoardColumn = ({ onAddColumn, boardId, position }: Props) => 
         className="text-sm"
         placeholder="🎯Título para la columna"
         value={title}
+        autoFocus
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
@@ -38,6 +39,7 @@ export const CreateBoardColumn = ({ onAddColumn, boardId, position }: Props) => 
         }
         }
       />
+
       <button
         onClick={handleAddColumn}
         className="p-2 rounded-full bg-primary/90 hover:bg-primary transition w-fit cursor-pointer"
