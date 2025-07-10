@@ -3,7 +3,7 @@ import { cn } from "../../utils/utils"
 import { Input } from "../UI/Input"
 import { Textarea } from "../UI/Textarea"
 import { useState } from "react"
-import type { Tag, Task } from "../../types/types"
+import type { newTask, Tag, Task } from "../../types/types"
 import { TagInput } from "../TagInput"
 
 interface Props {
@@ -11,11 +11,13 @@ interface Props {
   className?: string
   onCancel: () => void
   task?: Task
-  onSave?: (task: Task) => void
-  onEdit?: (id: number, task: Task) => void
+  columnId?: number
+  positionTask?: number
+  onSave?: (task: newTask) => void
+  onEdit?: (id: number, task: Partial<Task>) => void
 }
 
-export const CreateCardTask = ({ task, id, className, onSave, onEdit, onCancel }: Props) => {
+export const CreateCardTask = ({ id, task, columnId, positionTask, className, onSave, onEdit, onCancel }: Props) => {
 
   const [tags, setTags] = useState<Tag[]>(task?.tags ?? []);
 
@@ -24,19 +26,18 @@ export const CreateCardTask = ({ task, id, className, onSave, onEdit, onCancel }
     const formData = Object.fromEntries(new FormData(e.currentTarget))
     // modo edicion
     if (task?.id) {
-      const editedTask: Task = {
-        id: task.id,
+      const editedTask: Partial<Task> = {
         title: formData.title as string,
-        createdAt: new Date(),
         description: formData.description as string,
         tags: tags
       }
       return onEdit?.(task.id, editedTask)
     }
-    const newTask: Task = {
+    const newTask: newTask = {
       title: formData.title as string,
-      createdAt: new Date(),
       description: formData.description as string,
+      column_id: columnId ?? 0,
+      position: positionTask ?? 0,
       tags: tags
     }
     return onSave?.(newTask)
@@ -69,7 +70,7 @@ export const CreateCardTask = ({ task, id, className, onSave, onEdit, onCancel }
           className="text-sm"
           placeholder="Ingrese el detalle de la tarea"
           rows={4}
-          defaultValue={task?.description}
+          defaultValue={task?.description ?? ""}
         />
         <div className="flex items-center justify-between">
           <span className="flex text-xs items-center gap-1">
