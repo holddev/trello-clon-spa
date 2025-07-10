@@ -19,7 +19,7 @@ export const TagInput = ({ initialTags = [], onChange }: Props) => {
   const addTag = () => {
     if (!newTagName.trim()) return;
 
-    const newTag = { name: newTagName, color: newTagColor };
+    const newTag = { text: newTagName, color: newTagColor };
     const updatedTags = [...tags, newTag];
 
     setTags(updatedTags);
@@ -54,7 +54,7 @@ export const TagInput = ({ initialTags = [], onChange }: Props) => {
         <button
           type="button"
           onClick={addTag}
-          className="text-xs bg-blue-500 hover:bg-blue-600 text-white p-1 rounded"
+          className="text-xs bg-blue-500 hover:bg-blue-600 text-white p-1 rounded cursor-pointer"
         >
           <PlusIcon className="size-4" />
         </button>
@@ -67,7 +67,7 @@ export const TagInput = ({ initialTags = [], onChange }: Props) => {
             className="text-white/90 text-xs font-semibold flex items-center gap-1"
             style={{ backgroundColor: tag.color }}
           >
-            {tag.name}
+            {tag.text}
             <button
               type="button"
               className="cursor-pointer"
