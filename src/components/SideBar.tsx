@@ -1,6 +1,6 @@
 import { ClockFadingIcon, Grid3X3Icon, LayoutListIcon, Loader2Icon, PanelLeftIcon, PlusIcon } from "lucide-react"
 import { startTransition, useOptimistic, useState } from "react"
-import { cn } from "../utils/utils"
+import { cn, generateSlug } from "../utils/utils"
 import { Icons } from "./Icons"
 import { useBoard } from "../hooks/useBoard"
 import { Input } from "./UI/Input"
@@ -113,18 +113,20 @@ export const SideBar = () => {
               <h5 className="text-sm font-semibold text-primary">Personal</h5>
               <ul className="text-foreground/80">
                 {
-                  menuItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      to={item.path}
-                      className={cn(
-                        "flex items-center gap-2 rounded-full hover:bg-primary/10 hover:text-primary transition px-2 py-1",
-                        location.pathname + location.search === item.path && "bg-primary text-white/90 hover:bg-primary hover:text-white/90"
-                      )}
-                    >
-                      {item.icon} {item.name}
-                    </Link>
-                  ))
+                  menuItems.map((item, index) => {
+                    return (
+                      <Link
+                        key={index}
+                        to={item.path}
+                        className={cn(
+                          "flex items-center gap-2 rounded-full hover:bg-primary/10 hover:text-primary transition px-2 py-1",
+                          location.pathname + location.search === item.path && "bg-primary text-white/90 hover:bg-primary hover:text-white/90"
+                        )}
+                      >
+                        {item.icon} {item.name}
+                      </Link>
+                    )
+                  })
                 }
               </ul>
             </div>
@@ -143,10 +145,10 @@ export const SideBar = () => {
                         </div>
                       ) : (
                         <Link
-                          to={`/dashboard/${board.id}`}
+                          to={`/dashboard/${board.id}/${generateSlug(board.title)}`}
                           className={cn(
-                            "flex items-center gap-2 rounded-full hover:bg-primary/10 hover:text-primary transition px-2 py-1"
-                            , location.pathname + location.search === `/dashboard/${board.id}` && "bg-primary text-white/90 hover:bg-primary hover:text-white/90"
+                            "flex items-center gap-2 rounded-full hover:bg-primary/10 hover:text-primary transition px-2 py-1",
+                            location.pathname === `/dashboard/${board.id}/${generateSlug(board.title)}` && "bg-primary text-white/90 hover:bg-primary hover:text-white/90"
                           )}
                         >
                           <Grid3X3Icon className="min-w-4 size-4" />
