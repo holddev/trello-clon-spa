@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { CardBoardBase } from "./CardBoardBase"
 import { useState } from "react"
 import { Input } from "../UI/Input"
-import { cn } from "../../utils/utils"
+import { cn, generateSlug } from "../../utils/utils"
 import { format } from 'date-fns'
 import { es } from "date-fns/locale"
 import type { Board } from "../../types/types"
@@ -89,7 +89,7 @@ export const CardBoard = ({ board, onToggleStar, onUpdateBoard, onRemoveBoard }:
         </div>
 
         <Link
-          to={`/dashboard/${board.id}`}
+          to={`/dashboard/${board.id}/${generateSlug(board.title)}`}
           title="Abrir"
           className="rounded-full flex items-center gap-1 px-3 py-1
           transition duration-300 bg-primary/70 group-hover:bg-primary/90 
