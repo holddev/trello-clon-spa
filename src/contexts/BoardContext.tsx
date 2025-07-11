@@ -2,7 +2,8 @@ import { createContext } from "react";
 import type { Board, ReorderBoard } from "../types/types";
 
 interface BoardContextProps {
-  boards: Board[]
+  boards: Board[],
+  isLoadingBoards: boolean,
   addBoard: (board: Board) => void
   removeBoard: ({ id }: { id: number }) => void
   updateBoard: (board: Board) => void

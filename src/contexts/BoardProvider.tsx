@@ -6,14 +6,17 @@ import { getBoards } from "../api/boards"
 
 export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   const [boards, setBoads] = useState<Board[]>([])
+  const [isLoadingBoards, setIsLoadingBoards] = useState(true);
   const { getToken } = useAuth()
 
   useEffect(() => {
     const fetchBoards = async () => {
+      setIsLoadingBoards(true)
       const token = await getToken()
       const boardsFromApi = await getBoards({ token })
       const sortedBoards = boardsFromApi.sort((a, b) => a.order - b.order)
       setBoads(sortedBoards)
+      setIsLoadingBoards(false)
     }
 
     fetchBoards()
@@ -60,6 +63,7 @@ export const BoardProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <BoardContext value={{
       boards,
+      isLoadingBoards,
       addBoard,
       removeBoard,
       updateBoard,
