@@ -6,6 +6,7 @@ import { BoardList } from "../components/board/BoardList";
 import { useSearchParams } from "react-router-dom";
 import { NavBar } from "../components/navigation/NavBar";
 import { useUser } from "@clerk/clerk-react";
+import { GenerateSEO } from "../components/SEO";
 
 export const Board = () => {
   const { boards } = useBoard()
@@ -28,6 +29,10 @@ export const Board = () => {
 
   return (
     <>
+      <GenerateSEO
+        title="Mis Tableros - TrelloClon"
+        description="Visualiza y maneja todos tus proyectos y tareas."
+      />
       <NavBar />
       <section className="relative h-auto flex flex-col gap-4 mb-12 mt-5 py-5 px-2">
         <div className="flex gap-2 mb-2">
