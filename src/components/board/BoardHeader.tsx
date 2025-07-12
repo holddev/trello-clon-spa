@@ -1,16 +1,14 @@
 
 import { Button } from "../UI/Button"
 import { Icons } from "../Icons"
-import { useBoard } from "../../hooks/useBoard"
+import type { Board } from "../../types/types"
 
 interface Props {
-  boardId: number
+  board: Board | undefined
   onStar: (star: boolean) => void
 }
 
-export const BoardHeader = ({ boardId, onStar }: Props) => {
-  const { boards } = useBoard()
-  const board = boards.find((b) => b.id == boardId)
+export const BoardHeader = ({ board, onStar }: Props) => {
 
   return (
     <div className="py-2 pl-12 pr-2 flex items-center gap-4 bg-gradient-to-br from-primary to-violet-500">
