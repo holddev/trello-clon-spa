@@ -85,17 +85,17 @@ export const SideBar = () => {
   }
 
   return (
-    <aside className="min-h-screen relative">
+    <aside className="h-full fixed z-50 md:relative min-h-screen">
       <button
         className="bg-white/90 text-primary rounded-full p-2 w-fit absolute top-1 right-0 translate-x-[110%] cursor-pointer z-50"
         onClick={handleOnToggle}
       >
-        <PanelLeftIcon className="size-4 " />
+        <PanelLeftIcon className="size-4" />
       </button>
-      <div className={cn(isOpen ? "w-64" : "w-0",
-        "h-full transition-all ease-in-out duration-500 overflow-hidden max-h-screen bg-gray-100",)}
+      <div className={cn(isOpen ? "flex w-64" : "w-0",
+        "h-full min-h-screen transition-all ease-in-out duration-500 overflow-hidden max-h-screen bg-gray-100",)}
       >
-        <div className={cn("h-full w-full flex flex-col justify-between mt-4 px-2 transition origin-left", !isOpen && "scale-x-0")}>
+        <div className={cn("min-h-full w-full flex flex-col justify-between mt-4 px-2 transition origin-left", !isOpen && "scale-x-0")}>
           {/* sidebar header */}
           <div className="space-y-4">
             <div className="flex gap-2">
@@ -175,7 +175,7 @@ export const SideBar = () => {
             <hr className="w-full h-[1px] border-none bg-gradient-to-r from-violet-600/50 via-violet-600/30 to-transparent" />
           </div>
           {/* User profile */}
-          <div className="mb-7 w-full flex justify-end">
+          <div className="mb-10 md:mb-5 w-full h-full flex justify-end items-end">
             <SignedIn >
               <UserButton showName />
             </SignedIn>
