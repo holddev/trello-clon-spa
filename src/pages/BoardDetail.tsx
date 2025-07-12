@@ -15,12 +15,14 @@ import { toast } from "../utils/toast";
 import { updateTasksOrder } from "../api/tasks";
 import { CircleAlertIcon, LoaderPinwheelIcon } from "lucide-react";
 import { SkeletonBoardColumn } from "../components/skeletons/SkeletonColumnBoard";
+import { GenerateSEO } from "../components/SEO";
+import { useBoard } from "../hooks/useBoard";
 
 export const BoardDetail = () => {
   const { id } = useParams()
 
   const { getToken } = useAuth()
-
+  const { boards } = useBoard()
   const [originalBoardData, setOriginalBoardData] = useState<BoardDetails>()
   const [boardData, setBoardData] = useState<BoardDetails>()
   const hasChanges = useHasChanges(originalBoardData, boardData)
@@ -239,12 +241,18 @@ export const BoardDetail = () => {
   }
 
   if (!id) return <>Recurso no encontrado</>
+
+  const boardHeader = boards.find((b) => b.id == Number(id))
   const randomLength = Math.floor(Math.random() * 3) + 1
 
   return (
     <>
+      <GenerateSEO
+        title={`${boardHeader?.title} - TrelloClon}`}
+        description={`Organiza y gestiona las tareas del proyecto "${boardHeader?.title}" en TrelloClon.`}
+      />
       <BoardHeader
-        boardId={Number(id)}
+        board={boardHeader}
         onStar={handleToggleStarred}
       />
       {
