@@ -30,7 +30,6 @@ export const CreateBoardColumn = ({ onAddColumn, boardId, position }: Props) => 
         className="text-sm"
         placeholder="🎯Título para la columna"
         value={title}
-        autoFocus
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
