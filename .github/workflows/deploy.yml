@@ -31,13 +31,11 @@ jobs:
       - name: Install step
         run: "npm install"
 
-      - name: Create .env.production from GitHub secrets
-        run: |
-          echo "VITE_CLERK_PUBLISHABLE_KEY=${{ secrets.CLERK_PUBLISHABLE_KEY }}" > .env.production
-          echo "VITE_API_URL=${{ secrets.API_URL }}" >> .env.production
-
       - name: Build step
         run: "npm run build"
+        env: 
+          VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+          VITE_API_URL: ${{ secrets.API_URL }}
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
