@@ -31,8 +31,14 @@ jobs:
       - name: Install step
         run: "npm install"
 
+      - name: Install pnpm
+        run: "npm install -g pnpm"
+
+      - name: Install dependencies
+        run: "pnpm install"
+
       - name: Build step
-        run: "npm run build"
+        run: "pnpm run build"
         env: 
           VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
           VITE_API_URL: ${{ secrets.API_URL }}
