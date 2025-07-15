@@ -13,9 +13,9 @@ export const GenerateSEO = ({ title, description }: Props) => {
       {/* Open Graph */}
       <meta property="og:title" content={title ?? "TrelloClon - Clon de Trello"} />
       <meta property="og:description" content={description ?? "Organiza tus tareas en tableros visuales. Basado en la experiencia de Trello."} />
-      <meta property="og:image" content="/favicon-512.png" />
+      <meta property="og:image" content="https://raw.githubusercontent.com/holddev/trello-clon-spa/refs/heads/development/public/trello-board.webp" />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://tusitio.com" />
+      <meta property="og:url" content="https://trello-clon-demo.vercel.app" />
 
       {/* Favicon */}
       <link rel="icon" type="image/png" href="/logo.png" />
