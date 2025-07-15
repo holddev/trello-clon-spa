@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+html {
+	
+	scrollbar-color:  #155efc #ececec;
+	scrollbar-width: thin;
+}
+
 :root{
   --background: #fafafa;
   --foreground: #2b2b2b;
