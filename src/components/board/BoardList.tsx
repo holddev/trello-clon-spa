@@ -263,12 +263,16 @@ export const BoardList = ({ boards, creating, setCreating, view }: Props) => {
                 }
               </>
             ) : (
-              <span className="flex items-center gap-2">
-                <FolderOpenIcon className="size-5 text-primary" />
-                {view === "recent" && (<>Todavía no has creado ningún tablero <span className="text-primary">recientemente.</span></>)}
-                {view === "starred" && (<>Aún no tienes tableros <span className="text-primary">favoritos.</span></>)}
-                {view === "all" && (<>No tienes <span className="text-primary">tableros</span> en este momento</>)}
-              </span>
+              <>
+                {!creating && (
+                  <span className="flex items-center gap-2">
+                    <FolderOpenIcon className="size-5 text-primary" />
+                    {view === "recent" && (<>Todavía no has creado ningún tablero <span className="text-primary">recientemente.</span></>)}
+                    {view === "starred" && (<>Aún no tienes tableros <span className="text-primary">favoritos.</span></>)}
+                    {view === "all" && (<>No tienes <span className="text-primary">tableros</span> en este momento</>)}
+                  </span>
+                )}
+              </>
             )
         }
 
