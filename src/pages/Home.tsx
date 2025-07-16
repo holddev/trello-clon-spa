@@ -5,12 +5,10 @@ import { Header } from "../components/Header"
 import { Footer } from "../components/Footer"
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react"
 import { Link } from "react-router-dom"
-import { GenerateSEO } from "../components/SEO"
 
 export const Home = () => {
   return (
     <div className="max-w-5xl mx-auto px-2">
-      <GenerateSEO />
       <Header />
       <main className="flex items-center flex-col md:flex-row gap-5 min-h-screen pt-32 md:pt-0">
         <div className="flex flex-col gap-4 sm:gap-5">
