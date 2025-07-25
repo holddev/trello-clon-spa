@@ -1,7 +1,7 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 html {
-	
 	scrollbar-color:  #155efc #ececec;
 	scrollbar-width: thin;
 }
@@ -23,6 +23,30 @@ html {
   /* skeleton */
   --skeleton-background: #e5e7eb;
   
+}
+
+body{
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: all .3s ease-in-out;
+}
+
+.dark{  
+  --background: #181818;
+  --foreground: #c0cde3;
+  --primary:#1581fc;
+
+  /* button */
+  --button-background: #1581fc;
+  --button-foreground: #ebebeb;
+
+  /* input */
+  --input-primary: #1581fc;
+  --input-foreground: #ebebeb;
+  --input-background: #23272e;
+
+  /* skeleton */
+  --skeleton-background: #3b3b3b;
 }
 
 @theme{
