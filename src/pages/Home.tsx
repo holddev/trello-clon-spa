@@ -12,7 +12,7 @@ export const Home = () => {
       <Header />
       <main className="flex items-center flex-col md:flex-row gap-5 min-h-screen pt-32 md:pt-0">
         <div className="flex flex-col gap-4 sm:gap-5">
-          <h1 className="font-bold text-2xl sm:text-4xl md:text-5xl md:pb-2">Organiza tu trabajo y tu día a día con <span className="text-blue-600 whitespace-nowrap">Trello Clon</span></h1>
+          <h1 className="dark:text-white/90 font-bold text-2xl sm:text-4xl md:text-5xl md:pb-2">Organiza tu trabajo y tu día a día con <span className="text-primary whitespace-nowrap">Trello Clon</span></h1>
           <p className="text-pretty text-sm sm:text-base md:text-xl">
             Una herramienta visual que te ayuda a organizar múltiples tareas y avanzar en tus proyectos, sin complicaciones.
           </p>

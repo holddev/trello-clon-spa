@@ -9,7 +9,7 @@ export const Footer = () => {
           href="https://github.com/holddev"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1 text-blue-600 hover:underline"
+          className="flex items-center gap-1 text-primary hover:underline"
         >
           <Icons icon="GitHub" className="size-4" />
           Holddev
