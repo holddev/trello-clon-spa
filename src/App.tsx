@@ -9,6 +9,7 @@ import { ClerkProvider } from "@clerk/clerk-react"
 import ProtectedRoute from "./components/ProtectedRoute"
 import { esES } from "@clerk/localizations"
 import { ToastProvider } from "./contexts/ToastProvider"
+import { ThemeProvider } from "./contexts/ThemeProvider"
 
 function App() {
   const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -17,27 +18,29 @@ function App() {
     throw new Error('Add your Clerk Publishable Key to the .env file')
   }
   return (
-    <ClerkProvider
-      publishableKey={PUBLISHABLE_KEY}
-      afterSignOutUrl="/"
-      localization={esES as any}
-    >
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <ToastProvider>
-                <DashboardLayout />
-              </ToastProvider>
-            </ProtectedRoute>
-          }>
-            <Route index element={<Board />} />
-            <Route path=":id/:slug" element={<BoardDetail />} />
-          </Route>
-        </Routes>
-      </Router>
-    </ClerkProvider >
+    <ThemeProvider>
+      <ClerkProvider
+        publishableKey={PUBLISHABLE_KEY}
+        afterSignOutUrl="/"
+        localization={esES as any}
+      >
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <ToastProvider>
+                  <DashboardLayout />
+                </ToastProvider>
+              </ProtectedRoute>
+            }>
+              <Route index element={<Board />} />
+              <Route path=":id/:slug" element={<BoardDetail />} />
+            </Route>
+          </Routes>
+        </Router>
+      </ClerkProvider >
+    </ThemeProvider>
   )
 }
 
