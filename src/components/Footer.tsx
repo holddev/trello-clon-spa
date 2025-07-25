@@ -2,7 +2,7 @@ import { Icons } from "./Icons"
 
 export const Footer = () => {
   return (
-    <footer className="absolute bottom-1">
+    <footer className="absolute bottom-4">
       <p className="flex items-center gap-2 max-w-5xl text-sm  sm:text-base">
         Desarrollado por
         <a
