@@ -1,3 +1,5 @@
+export type Theme = 'light' | 'dark';
+
 export interface Tag {
   id?: number;
   task_id?: number;
