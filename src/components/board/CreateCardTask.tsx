@@ -44,7 +44,7 @@ export const CreateCardTask = ({ id, task, columnId, positionTask, className, on
   }
 
   return (
-    <div id={id} className={cn("relative flex flex-col gap-2 rounded-md bg-white shadow-sm hover:shadow-md p-2 text-foreground group", className)}>
+    <div id={id} className={cn("relative flex flex-col gap-2 rounded-md bg-white dark:bg-background shadow-sm hover:shadow-md p-2 text-foreground group", className)}>
       {task && task.isOptimistic && (
         <div className="absolute inset-0 w-full h-full backdrop-blur-[1.3px] grid place-content-center">
           <span className="flex items-center gap-2 text-sm text-primary">
@@ -56,7 +56,7 @@ export const CreateCardTask = ({ id, task, columnId, positionTask, className, on
       <form className="flex flex-col gap-2" onSubmit={handleOnSubmit}>
 
         <div>
-          <label className="block text-xs text-gray-600 mb-1">Etiquetas</label>
+          <label className="block text-xs text-foreground/80 mb-1">Etiquetas</label>
           <TagInput initialTags={tags} onChange={setTags} />
         </div>
         <Input
