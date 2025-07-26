@@ -215,7 +215,7 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
   ]
 
   return (
-    <article className={cn("flex flex-col gap-2 p-3 bg-gray-200/50 min-w-[250px] rounded-md", className)}>
+    <article className={cn("flex flex-col gap-2 p-3 bg-gray-200/50 dark:bg-black/40 min-w-[250px] rounded-md", className)}>
       <div className="flex items-center justify-between pb-2 text-foreground group">
         {editingTitle ? (
           <Input
@@ -239,7 +239,7 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
         )
         }
         <div className="flex items-center gap-2">
-          <Badge className={cn("text-foreground bg-white text-xs font-semibold rounded-full shadow-sm")} >
+          <Badge className={cn("text-foreground bg-white dark:bg-gray-700 text-xs font-semibold rounded-full shadow-sm")} >
             {columnTasks.tasks?.length ?? 0}
           </Badge>
           <Dropdown
@@ -265,7 +265,7 @@ export const BoardColumn = ({ className, columnTasks, onTasksChange, onUpdate, o
       <div
         data-column-id={columnTasks.id}
         ref={refParent}
-        className="flex flex-col gap-2 bg-gradient-to-br from-primary/50 to-violet-500/50 rounded-md p-2"
+        className="flex flex-col gap-2 bg-gradient-to-br from-primary/50 to-violet-500/50 dark:to-violet-700/50 rounded-md p-2"
       >
         {
           optimisticData.map((task, index) => {
