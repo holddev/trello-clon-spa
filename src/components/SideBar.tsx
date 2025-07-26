@@ -93,7 +93,7 @@ export const SideBar = () => {
         <PanelLeftIcon className="size-4" />
       </button>
       <div className={cn(isOpen ? "flex w-64" : "w-0",
-        "h-full min-h-screen transition-all ease-in-out duration-500 overflow-hidden max-h-screen bg-gray-100",)}
+        "h-full min-h-screen transition-all ease-in-out duration-500 overflow-hidden max-h-screen bg-gray-100 dark:bg-[#2a2a2a]",)}
       >
         <div className={cn("min-h-full w-full flex flex-col justify-between mt-4 px-2 transition origin-left", !isOpen && "scale-x-0")}>
           {/* sidebar header */}
@@ -108,7 +108,7 @@ export const SideBar = () => {
             <hr className="w-full h-[1px] border-none bg-gradient-to-r from-violet-600/50 via-violet-600/30 to-transparent" />
           </div>
           {/* Items menu */}
-          <div className="space-y-4">
+          <div className="space-y-4 pt-8">
             <div className="flex flex-col gap-1">
               <h5 className="text-sm font-semibold text-primary">Personal</h5>
               <ul className="text-foreground/80">
@@ -120,7 +120,7 @@ export const SideBar = () => {
                         to={item.path}
                         className={cn(
                           "flex items-center gap-2 rounded-full hover:bg-primary/10 hover:text-primary transition px-2 py-1",
-                          location.pathname + location.search === item.path && "bg-primary text-white/90 hover:bg-primary hover:text-white/90"
+                          location.pathname + location.search === item.path && "bg-primary dark:bg-primary/70 dark:hover:bg-primary/70 text-white/90 hover:bg-primary hover:text-white/90"
                         )}
                       >
                         {item.icon} {item.name}

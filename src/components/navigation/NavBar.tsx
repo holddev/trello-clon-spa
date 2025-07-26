@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
 import { cn } from "../../utils/utils"
+import { ToggleTheme } from "../ToggleTheme"
 
 export const NavBar = () => {
   const location = useLocation()
@@ -25,8 +26,8 @@ export const NavBar = () => {
   ]
 
   return (
-    <header className="flex flex-col sm:flex-row gap-4 items-center sm:items-end bg-primary pt-2 text-white/90">
-      <h2 className="md:pl-12 font-bold sm:text-xl text-2xl">Trello Clon</h2>
+    <header className="relative flex flex-col sm:flex-row gap-4 items-center sm:items-end bg-primary pt-2 text-white/90">
+      <h2 className="md:pl-12 font-bold sm:text-xl text-2xl whitespace-nowrap">Trello Clon</h2>
       <nav>
         <ul className="flex">
           {
@@ -51,6 +52,7 @@ export const NavBar = () => {
           }
         </ul>
       </nav>
+      <ToggleTheme className="absolute right-1 top-2" />
     </header>
   )
 }

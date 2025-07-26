@@ -14,7 +14,7 @@ interface Props {
 export const CardTask = ({ className, task, onEdit, onDelete }: Props) => {
 
   return (
-    <div className={cn("relative flex flex-col gap-2 rounded-md bg-white shadow-sm hover:shadow-md p-2 text-foreground group", className)}>
+    <div className={cn("relative flex flex-col gap-2 rounded-md bg-white dark:bg-background shadow-sm hover:shadow-md p-2 text-foreground group", className)}>
       {task && task.isOptimistic && (
         <div className="absolute inset-0 w-full h-full backdrop-blur-[1.3px] grid place-content-center">
           <span className="flex items-center gap-2 text-sm text-primary">

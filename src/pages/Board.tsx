@@ -63,7 +63,7 @@ export const Board = () => {
           />
           {/* Fondo Blanco */}
           <div
-            className="absolute bg-white inset-[2px] rounded-md"
+            className="absolute bg-white dark:bg-black inset-[2px] rounded-md"
             style={{ zIndex: 1 }}
           />
 

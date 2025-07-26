@@ -25,7 +25,7 @@ export const CreateBoardColumn = ({ onAddColumn, boardId, position }: Props) => 
   }
 
   return (
-    <article className={"flex justify-between gap-2 p-3 h-fit bg-gray-200/50 min-w-[250px] rounded-md"}>
+    <article className={"flex justify-between gap-2 p-3 h-fit bg-gray-200/50 dark:bg-black/40 min-w-[250px] rounded-md"}>
       <Input
         className="text-sm"
         placeholder="🎯Título para la columna"
