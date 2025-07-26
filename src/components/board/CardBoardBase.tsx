@@ -9,7 +9,7 @@ export const CardBoardBase = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
-        "relative h-full bg-gradient-to-br from-primary/20 via-white to-primary/20 shadow-sm p-3 hover:shadow-md flex gap-1 text-foreground rounded-md group",
+        "relative h-full bg-gradient-to-br from-primary/20 via-white dark:via-black to-primary/20 shadow-sm p-3 hover:shadow-md flex gap-1 text-foreground rounded-md group",
         className
       )}
     >

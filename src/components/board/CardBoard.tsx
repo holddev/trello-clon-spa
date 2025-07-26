@@ -21,6 +21,8 @@ export const CardBoard = ({ board, onToggleStar, onUpdateBoard, onRemoveBoard }:
   const [title, setTitle] = useState(board.title)
 
   const handleUpdateBoard = () => {
+    if (title.trim() === "" || title.trim() === board.title) return setIsEditing(false)
+
     onUpdateBoard(board.id, title.trim())
     setIsEditing(false)
   }
@@ -58,7 +60,7 @@ export const CardBoard = ({ board, onToggleStar, onUpdateBoard, onRemoveBoard }:
             {format(board?.created_at || new Date(), "dd MMM", { locale: es })}
           </span>
         </div>
-        <span className="w-fit text-6xl font-bold text-primary/20 group-hover:text-primary/40 transition" >
+        <span className="w-fit text-6xl font-bold text-primary/20 dark:text-primary/40 dark:group-hover:text-primary/50 group-hover:text-primary/40 transition" >
           {board.cols ?? 0}
         </span>
       </div>
@@ -80,24 +82,29 @@ export const CardBoard = ({ board, onToggleStar, onUpdateBoard, onRemoveBoard }:
               ? <SaveIcon className="size-4" />
               : <EditIcon className="size-4" />}
           </button>
-          <button
-            onClick={() => onRemoveBoard(board.id)}
-            className={cn("cursor-pointer transition p-2 rounded-full bg-red-500")}
-          >
-            <Trash2Icon className="size-4" />
-          </button>
+          {!isEditing && (
+            <button
+              onClick={() => onRemoveBoard(board.id)}
+              title="Eliminar"
+              className={cn("cursor-pointer transition p-2 rounded-full bg-red-500")}
+            >
+              <Trash2Icon className="size-4" />
+            </button>
+          )}
         </div>
 
-        <Link
-          to={`/dashboard/${board.id}/${generateSlug(board.title)}`}
-          title="Abrir"
-          className="rounded-full flex items-center gap-1 px-3 py-1
+        {!isEditing && (
+          <Link
+            to={`/dashboard/${board.id}/${generateSlug(board.title)}`}
+            title="Abrir"
+            className="rounded-full flex items-center gap-1 px-3 py-1
           transition duration-300 bg-primary/70 group-hover:bg-primary/90 
           lg:opacity-0 lg:translate-y-4 lg:group-hover:translate-y-0 lg:group-hover:opacity-100"
-        >
-          Abrir
-          <ArrowRightIcon className="size-4" />
-        </Link>
+          >
+            Abrir
+            <ArrowRightIcon className="size-4" />
+          </Link>
+        )}
 
       </div>
       {board.isOptimistic && (
