@@ -2,7 +2,7 @@ import { Skeleton } from "../UI/Skeleton"
 
 export const SkeletonCardBoard = () => {
   return (
-    <div className="relative p-3 bg-white shadow-sm flex flex-col rounded-md justify-between gap-2 overflow-hidden animate-pulse">
+    <div className="relative p-3 bg-white dark:bg-gray-950 shadow-sm flex flex-col rounded-md justify-between gap-2 overflow-hidden animate-pulse">
       <div className="flex">
         <div className="w-full flex flex-col gap-2">
           <Skeleton className="h-5 w-3/4 rounded" />
