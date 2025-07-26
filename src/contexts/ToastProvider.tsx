@@ -37,8 +37,8 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
             key={toast.id}
             className={`
               flex items-center gap-2 px-4 py-2 text-sm
-              rounded-sm shadow-md animate-fade-in-up transition-all duration-300 text-black/80
-              bg-gradient-to-br from-primary/20 via-gray-100 to-white
+              rounded-sm shadow-md animate-fade-in-up transition-all duration-300 text-foreground
+              bg-gradient-to-br from-primary/20 via-gray-100 to-white dark:via-gray-800 dark:to-black
             ${toast.type === "ok" ? "border-l-4 border-green-600"
                 : toast.type === "error" ? "border-l-4 border-red-600 "
                   : "border-l-4 border-yellow-600 "}`}
