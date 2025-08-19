@@ -3,7 +3,7 @@
 Una aplicación web para la organización de tareas y proyectos, inspirada en la interfaz y funcionalidad de **Trello**.
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/holddev/trello-clon-spa/refs/heads/development/public/trello-board-id.webp" alt="screenshot trello clon" width="90%"/>
+  <img src="https://raw.githubusercontent.com/holddev/trello-clon-spa/refs/heads/main/public/trello-board-id.webp" alt="screenshot trello clon" width="90%"/>
 </div>
 
 
